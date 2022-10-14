@@ -11,7 +11,7 @@ export async function loadWasiInstance(path) {
     await readFile(new URL(path, import.meta.url)),
     {
       env: { memory },
-      wasi_snapshot_preview1: { ...wasi.wasiImport, sock_accept: () => {} },
+      wasi_snapshot_preview1: { ...wasi.wasiImport },
     }
   );
   return { instance, memory };

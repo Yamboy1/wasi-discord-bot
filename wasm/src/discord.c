@@ -2,7 +2,7 @@
 #include <string.h>
 #include "discord.h"
 
-struct interaction_response* interaction_response_init(uint8_t ephemeral, char* content) {
+struct interaction_response* interaction_response_init(bool ephemeral, char* content) {
     size_t length = strlen(content);
     char* contentMalloc = calloc(length+1, 1);
     strncpy(contentMalloc, content, length);

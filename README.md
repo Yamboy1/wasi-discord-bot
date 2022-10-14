@@ -19,7 +19,7 @@ struct interaction_response* command() {
 and compile it with something along the lines of this
 
 ```
-$ clang -nostartfiles -flto -Wl,--no-entry,--export-dynamic,--import-memory,--lto-O3 --target=wasm32-wasi --sysroot=/opt/wasi-sdk/share/wasi-sysroot -Oz wasm/src/pong.c wasm/src/discord.c -o wasm/pong.wasm
+$ clang -nostartfiles -flto -Wl,--no-entry,--import-memory,--lto-O3 --target=wasm32-wasi --sysroot=/opt/wasi-sdk/share/wasi-sysroot -Oz wasm/src/pong.c wasm/src/discord.c -o wasm/pong.wasm
 ```
 
 ## Usage
