@@ -5,13 +5,18 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "clang -nostartfiles -flto -Wl,--no-entry,--import-memory,--lto-O3 --target=wasm32-wasi --sysroot=/opt/wasi-sdk/share/wasi-sysroot -Oz wasm/src/pong.c wasm/src/discord.c -o wasm/pong.wasm",
+    "serve": "node --experimental-wasi-unstable-preview1 src/index.js",
+    "start": "npm run format && npm run serve",
+    "format": "prettier --write **.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "discord-interactions": "^3.2.0",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "prettier": "^2.7.1"
   }
 }
