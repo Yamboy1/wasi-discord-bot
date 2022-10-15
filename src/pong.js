@@ -1,7 +1,10 @@
-import { readResponse, loadWasiInstance } from "./wasm.js";
+import { loadWasiInstance } from "./wasm.js";
 
-const { instance, memory } = await loadWasiInstance("../wasm/pong.wasm");
+const {
+  instance,
+  memoryHelpers: { readResponse },
+} = await loadWasiInstance("../wasm/pong.wasm");
 
 export function pongCommand() {
-  return readResponse(instance.exports.command(), memory.buffer);
+  return readResponse(instance.exports.command());
 }

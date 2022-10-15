@@ -4,7 +4,7 @@
 
 This is a very much WIP discord bot that runs Discord Interactions via WASI functions.
 
-For example, for a bot that replies to a Slash Command with "Pong!", you'd write this C code
+For example, for a bot that replies to a Slash Command with "Pong!", you'd write following C code
 
 ```c
 #include <stdbool.h>
@@ -12,7 +12,7 @@ For example, for a bot that replies to a Slash Command with "Pong!", you'd write
 
 __attribute__((export_name("command")))
 struct interaction_response* command() {
-    return interaction_response_init(false, "Pong!");
+    return interaction_response_init(true, "Pong"!);
 };
 ```
 

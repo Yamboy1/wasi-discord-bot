@@ -1,5 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { WASI } from "wasi";
+import { InteractionResponseFlags } from "discord-interactions";
 
 const decoder = new TextDecoder("utf-8", { fatal: true });
 
@@ -14,27 +15,42 @@ export async function loadWasiInstance(path) {
       wasi_snapshot_preview1: { ...wasi.wasiImport },
     }
   );
-  return { instance, memory };
+  return { instance, memoryHelpers: memoryHelpers(memory) };
 }
 
-export function readResponse(address, buffer) {
-  const view = new DataView(buffer, address);
-  const ephemeral = view.getUint8(0);
-  const content = readString(view.getUint32(4, true), buffer);
-  return {
-    ephemeral,
-    content,
-  };
-}
+export function memoryHelpers(memory) {
+  const buffer = memory.buffer;
 
-function readString(address, buffer) {
-  const length = wasmStringLength(address, buffer);
-  return decoder.decode(new Uint8Array(buffer, address, length));
-}
+  function readResponse(address) {
+    const ephemeral = readBoolean(address, buffer);
+    const content = readString(dereference(address + 4), buffer);
+    return {
+      flags: ephemeral ? InteractionResponseFlags.EPHEMERAL : 0,
+      content,
+    };
+  }
 
-function wasmStringLength(allocated, buffer) {
-  const view = new DataView(buffer, allocated);
-  let i = 0;
-  while (view.getUint8(i) !== 0) ++i;
-  return i;
+  function dereference(address) {
+    const view = new DataView(buffer, address, 4);
+    return view.getUint32(0, true);
+  }
+
+  function readBoolean(address) {
+    const view = new DataView(buffer, address, 1);
+    return !!view.getUint8(0);
+  }
+
+  function readString(address) {
+    const length = wasmStringLength(address, buffer);
+    return decoder.decode(new Uint8Array(buffer, address, length));
+  }
+
+  function wasmStringLength(address) {
+    const view = new DataView(buffer, address);
+    let i = 0;
+    while (view.getUint8(i) !== 0) ++i;
+    return i;
+  }
+
+  return { readResponse };
 }
