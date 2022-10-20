@@ -1,22 +1,25 @@
 {
-  "name": "wasm-test",
+  "name": "wasi-discord-bot",
   "version": "1.0.0",
-  "description": "",
+  "description": "A discord bot with message components written in a WAGI inspired interface.",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "compile": "clang -nostartfiles -flto -Wl,--no-entry,--import-memory,--lto-O3 --target=wasm32-wasi --sysroot=/opt/wasi-sdk/share/wasi-sysroot -Oz wasm/src/pong.c wasm/src/discord.c -o wasm/pong.wasm",
+    "compile": "rustc --target wasm32-wasi wasm/src/pong.rs -o wasm/pong.wasm",
+    "format": "prettier --write **.js",
+    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
     "serve": "node --experimental-wasi-unstable-preview1 src/index.js",
-    "start": "npm run format && npm run serve",
-    "format": "prettier --write **.js"
+    "start": "npm run format && npm run test && npm run serve"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Yamboy1 <yamboyd1@gmail.com>",
+  "license": "MIT",
   "dependencies": {
     "discord-interactions": "^3.2.0",
     "express": "^4.18.2",
     "prettier": "^2.7.1"
+  },
+  "devDependencies": {
+    "jest": "^29.2.1"
   }
 }

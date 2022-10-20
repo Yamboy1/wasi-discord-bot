@@ -1,10 +1,7 @@
-import { loadWasiInstance } from "./wasm.js";
+import { startWasiInstance } from "./wasm.js";
+import { parseContent } from "./discord.js";
 
-const {
-  instance,
-  memoryHelpers: { readResponse },
-} = await loadWasiInstance("../wasm/pong.wasm");
-
-export function pongCommand() {
-  return readResponse(instance.exports.command());
+export async function pongCommand() {
+  const content = await startWasiInstance("../wasm/pong.wasm", "../test.txt");
+  return parseContent(content);
 }

@@ -17,13 +17,11 @@ app.get("/", (req, res) => {
 app.post(
   "/interactions",
   verifyKeyMiddleware(process.env.DISCORD_PUBLIC_KEY),
-  (req, res) => {
+  async (req, res) => {
     const message = req.body;
     if (message.type === InteractionType.APPLICATION_COMMAND) {
-      res.send({
-        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-        data: pongCommand(),
-      });
+      let a;
+      res.send(await pongCommand());
     }
   }
 );

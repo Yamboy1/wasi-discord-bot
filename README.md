@@ -2,29 +2,21 @@
 
 ## Intro
 
-This is a very much WIP discord bot that runs Discord Interactions via WASI functions.
+This is a very much WIP discord bot that runs Discord Interactions via CGI/WAGI inspired WebAssembly code
 
-For example, for a bot that replies to a Slash Command with "Pong!", you'd write following C code
+For example, for a bot that replies to a Slash Command with "Pong!", you'd write following rust code
 
-```c
-#include <stdbool.h>
-#include "discord.h"
-
-__attribute__((export_name("command")))
-struct interaction_response* command() {
-    return interaction_response_init(true, "Pong"!);
-};
-```
-
-and compile it with something along the lines of this
-
-```
-$ clang -nostartfiles -flto -Wl,--no-entry,--import-memory,--lto-O3 --target=wasm32-wasi --sysroot=/opt/wasi-sdk/share/wasi-sysroot -Oz wasm/src/pong.c wasm/src/discord.c -o wasm/pong.wasm
+```rs
+fn main() {
+    println!("Type: Channel-Message");
+    println!();
+    println!("Pong!");
+}
 ```
 
 ## Usage
 
-To run the web server, set the DISCORD_PUBLIC_KEY environment variable to your public key, and run index.js using node with the unstable WASI flag enabled. It is assumed that you know how discord interactions web servers work.
+To run the web server, set the DISCORD_PUBLIC_KEY environment variable to your public key, and run index.js using node with the unstable WASI flag enabled. This early in the project, if you would like the use this bot, it is assumed that you know how discord interactions web servers work.
 
 ```bash
 $ export DISCORD_PUBLIC_KEY=1234567890abcdef
