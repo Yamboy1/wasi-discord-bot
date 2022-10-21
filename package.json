@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "compile": "rustc --target wasm32-wasi wasm/src/pong.rs -o wasm/pong.wasm",
-    "format": "prettier --write **.js",
+    "format": "npx prettier --write **.js",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
     "serve": "node --experimental-wasi-unstable-preview1 src/index.js",
     "start": "npm run format && npm run test && npm run serve"
