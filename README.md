@@ -15,7 +15,7 @@ fn main() {
 ```
 
 ## Plans
-- [ ] Switch to using TypeScript
+- [x] Switch to using TypeScript
 - [ ] Add CI/CD
 - [ ] Add badges and general cleanup of readme
 - [ ] Split WebAssembly config into separate module, has more potential than just discord bot
