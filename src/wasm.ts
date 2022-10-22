@@ -1,10 +1,11 @@
 import { readFile, open, rm } from "node:fs/promises";
+import { join as pathJoin } from "node:path";
 import { WASI } from "wasi";
 
 export const wasi = new WASI();
 
 export async function startWasiInstance(path: string, tempPath: string) {
-  const tempUrl = new URL(tempPath, import.meta.url);
+  const tempUrl = pathJoin(__dirname, tempPath);
   let file = await open(tempUrl, "w");
   const wasi = new WASI({
     stdout: file.fd,
@@ -12,7 +13,7 @@ export async function startWasiInstance(path: string, tempPath: string) {
   });
   const memory = new WebAssembly.Memory({ initial: 2 });
   const { instance } = await WebAssembly.instantiate(
-    await readFile(new URL(path, import.meta.url)),
+    await readFile(pathJoin(__dirname, path)),
     {
       env: { memory },
       wasi_snapshot_preview1: { ...wasi.wasiImport },

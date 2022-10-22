@@ -1,6 +1,6 @@
 import { expect, test } from "@jest/globals";
 import { InteractionResponseType } from "discord-interactions";
-import { parseContent } from "../discord.js";
+import { parseContent } from "../src/discord";
 
 test("a valid content message is parsed properly", () => {
   const parsed = parseContent("Type: Channel-Message\n\nPong!");
