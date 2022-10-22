@@ -1,6 +1,11 @@
 import { InteractionResponseType } from "discord-interactions";
 
-export function parseContent(content) {
+interface InteractionResponse {
+  type: InteractionResponseType;
+  data: { content: string };
+}
+
+export function parseContent(content: string) {
   const lines = content.split("\n");
   const headers = new Map();
   let i = 0;
@@ -35,5 +40,5 @@ export function parseContent(content) {
     data: {
       content: body,
     },
-  };
+  } as InteractionResponse;
 }

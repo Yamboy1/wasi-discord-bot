@@ -3,7 +3,7 @@ import { WASI } from "wasi";
 
 export const wasi = new WASI();
 
-export async function startWasiInstance(path, tempPath) {
+export async function startWasiInstance(path: string, tempPath: string) {
   const tempUrl = new URL(tempPath, import.meta.url);
   let file = await open(tempUrl, "w");
   const wasi = new WASI({
